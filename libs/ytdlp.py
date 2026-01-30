@@ -23,6 +23,7 @@ def gen_opts(output_path='./downloads', include_thumbnail=True):
             'key': 'FFmpegMetadata', # adds title/artist tags
         }
     ],
+    'ignoreerrors': True,
     
     # 'quiet': True,
     # 'extract_flat': True,
@@ -42,6 +43,8 @@ def filter_playlist(url, songs):
     playlist_info = ydl.extract_info(url, download=False)
     if 'entries' in playlist_info:
       for entry in playlist_info['entries']:
+        if entry is None:
+          continue
         song_url = entry.get('original_url')
         song_name = entry.get('title')
         song_artist = entry.get('artist')
