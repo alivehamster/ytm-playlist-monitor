@@ -26,7 +26,7 @@ def update_downloads():
         for file in files:
             songs[os.path.splitext(file)[0]] = None
     else:
-        os.mkdir(path)
+        os.makedirs(path, exist_ok=True)
     to_download = filter_playlist(url, songs)
 
     print(f"Downloading {len(to_download)} new songs to {path}...")
