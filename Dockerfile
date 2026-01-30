@@ -8,8 +8,10 @@ RUN apk add --no-cache \
 
 WORKDIR /app
 
-COPY . .
+COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt --break-system-packages
+
+COPY . .
 
 CMD ["python3", "main.py"]
