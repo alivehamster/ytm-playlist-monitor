@@ -20,13 +20,14 @@ def gen_opts(output_path='./downloads', include_thumbnail=True):
             'key': 'EmbedThumbnail', # adds album art to the file
         },
         {
-            'key': 'FFmpegMetadata', # adds title/artist tags
-        }
+            'key': 'FFmpegMetadata',
+            'add_metadata': True,
+        },
     ],
     'ignoreerrors': True,
     
     # 'quiet': True,
-    # 'extract_flat': True,
+    'extract_flat': True,
   }
 
   if include_thumbnail:
@@ -43,19 +44,14 @@ def filter_playlist(url, songs):
     playlist_info = ydl.extract_info(url, download=False)
     if 'entries' in playlist_info:
       for entry in playlist_info['entries']:
-        if entry is None:
-          continue
-        song_url = entry.get('original_url')
+        song_url = entry.get('url')
         song_name = entry.get('title')
-        song_artist = entry.get('artist')
+        song_id = entry.get('id')
 
-        name = f"{song_name} - {song_artist}"
-        sanitized_name = yt_dlp.utils.sanitize_filename(name, restricted=False)
-
-        if sanitized_name in songs:
+        if song_id in songs:
           continue
             
-        print(f"Missing: {sanitized_name}")
+        print(f"Missing: {song_name}")
         missing.append(song_url)
       
   return missing
