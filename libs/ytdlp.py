@@ -36,24 +36,27 @@ def gen_opts(output_path='./downloads', include_thumbnail=True):
 
   return ydl_opts
 
-def filter_playlist(url, songs):
+def get_playlist_info(url):
   ydl_opts = gen_opts("./downloads", include_thumbnail=False)
-  missing = []
-
+  
   with yt_dlp.YoutubeDL(ydl_opts) as ydl:
     playlist_info = ydl.extract_info(url, download=False)
-    if 'entries' in playlist_info:
-      for entry in playlist_info['entries']:
-        song_url = entry.get('url')
-        song_name = entry.get('title')
-        song_id = entry.get('id')
+    return playlist_info.get('entries', [])
 
-        if song_id in songs:
-          continue
-            
-        print(f"Missing: {song_name}")
-        missing.append(song_url)
-      
+def filter_playlist(playlist_entries, songs):
+  missing = []
+  
+  for entry in playlist_entries:
+    song_url = entry.get('url')
+    song_name = entry.get('title')
+    song_id = entry.get('id')
+
+    if song_id in songs:
+      continue
+        
+    print(f"Missing: {song_name}")
+    missing.append(song_url)
+  
   return missing
 
 def download_songs(songs, path):
