@@ -36,7 +36,7 @@ def update_downloads():
     playlist_states[url] = current_ids
     
     # Read existing songs from files
-    songs = {}
+    songs = set()
     if os.path.exists(path):
       files = os.listdir(path)
       for file in files:
@@ -56,7 +56,7 @@ def update_downloads():
               match = re.search(r'[?&]v=([^&]+)', purl)
               if match:
                 id = match.group(1)
-                songs[id] = None
+                songs.add(id)
           except Exception as e:
             print(f"Error reading metadata from {file}: {e}")
     else:
