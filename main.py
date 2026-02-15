@@ -74,7 +74,10 @@ if(playlists):
 
   while True:
     schedule.run_pending()
-    time.sleep(60)
+    sleep_time = schedule.idle_seconds()
+    if sleep_time is None or sleep_time < 0:
+      sleep_time = 60
+    time.sleep(sleep_time)
 else:
   print("No playlists found in environment variable 'Playlists'")
 
