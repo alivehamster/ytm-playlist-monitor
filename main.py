@@ -70,7 +70,7 @@ def update_downloads():
 if(playlists):
   update_downloads() 
 
-  schedule.every(2).minutes.do(update_downloads)
+  schedule.every(interval).minutes.do(update_downloads)
 
   while True:
     schedule.run_pending()
