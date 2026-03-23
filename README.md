@@ -1,3 +1,5 @@
+# Deprecated in favor of [playlist-monitor-go](https://github.com/alivehamster/playlist-monitor-go)
+
 # What is this
 Every 24 hours this will scan your youtube music playlists and download any music that has been added
 
